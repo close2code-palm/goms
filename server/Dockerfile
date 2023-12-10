@@ -6,8 +6,6 @@ COPY . .
 
 RUN go mod download
 
-RUN go build -o /goauthdocker
+EXPOSE 8088
 
-EXPOSE 8089
-
-CMD ["/goauthdocker"]
+CMD go run ./run.go
