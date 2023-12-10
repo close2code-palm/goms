@@ -2,5 +2,5 @@ package domain
 
 type User struct {
 	UserId   UserId
-	Password string
+	Password string `bson:"saltedPassword"`
 }

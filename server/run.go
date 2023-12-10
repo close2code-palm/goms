@@ -28,8 +28,9 @@ func main() {
 	}()
 	database := client.Database(config.MongoConfig.Database)
 
-	tokenHandler := http.HandlerFunc(presentation.IDPWithDBHandlerFactory(database))
+	tokenReader := adapters.Reader{}
 	registrationAdapter := adapters.MongoAdapter{Col: database.Collection("users")}
+	tokenHandler := presentation.GetJWTIdentityHandlerFactory(registrationAdapter, tokenReader)
 	http.Handle("/register", presentation.RegisterIdentityHandlerFactory(registrationAdapter))
 	http.Handle("/token", tokenHandler)
 	log.Fatal(http.ListenAndServe(":8088", nil))
