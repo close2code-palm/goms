@@ -11,7 +11,7 @@ import (
 )
 
 type MongoAdapter struct {
-	Col *mongo.Collection
+	Col *mongo.Collection	
 }
 
 func (ma MongoAdapter) SaveUsersPass(u domain.User) interface{} {

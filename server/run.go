@@ -14,7 +14,12 @@ import (
 )
 
 func main() {
-	config := infrastucture.ReadConfig("config.yaml")
+	// config := infrastucture.ReadConfig("./config.yaml")
+	config := infrastucture.Config{MongoConfig: struct {
+		Host     string "yaml:\"host\""
+		Port     int    "yaml:\"port\""
+		Database string "yaml:\"dbName\""
+	}{Host: "localhost", Port: 27017, Database: "goauth"}}
 	mainCtx := context.Background()
 
 	mongoCtx, cancel := context.WithCancel(mainCtx)

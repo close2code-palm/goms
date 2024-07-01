@@ -1,11 +1,16 @@
-FROM golang:1.19.2-bullseye
+FROM golang:1.19.2-bullseye as builder
 
 WORKDIR /server
 
-COPY . .
-
+COPY go.mod .
 RUN go mod download
 
-EXPOSE 8088
+COPY . .
+RUN CGO_ENABLED=0 go build -o /serve run.go
 
-CMD go run ./run.go
+FROM alpine:3
+WORKDIR /
+COPY --from=builder /serve /
+
+
+ENTRYPOINT [ "/serve" ]
